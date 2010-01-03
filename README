@@ -1,0 +1,43 @@
+PublicAccessor
+==============
+
+An attempt to declare public/private attributes
+Will overwrite every attribute you /dont/ declare as public
+
+It only messes with models in which you declare 'public_accessor'
+
+
+Example
+=======
+
+class User
+ public_accessor :token, :readonly => true
+ public_accessor :first_name, :last_name
+
+ def credentials
+   {:password => @password, :login => @login}
+ end
+
+end
+
+
+IRB:
+====
+
+>> @user.first_name
+=> "Jimmy"
+>> @user.first_name = "Jimbo"
+=> #<User id: 1, :first_name: "Jimbo" token: 123>
+
+>> @user.token
+=> "123"
+>> @user.token = 456
+=> private method 'token=' called on #<User 0x3939393>
+
+>> @user.password
+=> private method 'password' called on #<User 0x3939393>
+
+>> @user.credentials
+=> {:password => "whatup", :login => "gangsta"}
+
+Copyright (c) 2009 rescue => Rangers, released under the MIT license
